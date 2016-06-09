@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import model.GroceryItemFruits;
+import model.Fruits;
 
 /**
  * Created by Kannan on 6/9/2016.
@@ -21,9 +21,9 @@ import model.GroceryItemFruits;
 public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.FruitViewHolder> {
 
     private Activity mActivity;
-    private ArrayList<GroceryItemFruits> mArrayListFruits;
+    private ArrayList<Fruits> mArrayListFruits;
 
-    public GroceryAdapter(Activity oActivity, ArrayList<GroceryItemFruits> oArrayListFruits) {
+    public GroceryAdapter(Activity oActivity, ArrayList<Fruits> oArrayListFruits) {
         mActivity = oActivity;
         mArrayListFruits = oArrayListFruits;
     }
@@ -53,8 +53,8 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.FruitVie
     public void onBindViewHolder(FruitViewHolder holder, int position) {
         Picasso.with(mActivity).load("http://i.imgur.com/DvpvklR.png").into(holder.ivFruits);
         holder.tvFruitName.setText(mArrayListFruits.get(position).getFruitName());
-        holder.tvFruitPrice.setText(String.valueOf(mArrayListFruits.get(position).getPrice()));
-        holder.tvFruitWeight.setText(String.valueOf(mArrayListFruits.get(position).getWeight()));
+        holder.tvFruitPrice.setText(String.valueOf(mArrayListFruits.get(position).getFruitPrice()));
+        holder.tvFruitWeight.setText(String.valueOf(mArrayListFruits.get(position).getFruitWeight()));
     }
 
     @Override
