@@ -39,6 +39,7 @@
         android:layout_alignParentRight="true">
 
         <ImageView
+            android:id="@+id/iv_right_arrow"
             android:layout_width="@dimen/fifty_dp"
             android:layout_height="@dimen/fifty_dp"
             android:layout_toRightOf="@id/llDetails"
