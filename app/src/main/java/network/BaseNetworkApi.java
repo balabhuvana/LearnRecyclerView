@@ -13,8 +13,5 @@ import retrofit2.http.GET;
 public interface BaseNetworkApi {
 
     @GET("/fruits")
-    Call<ArrayList<Fruits>> getUser();
-
-    @GET("/fruits")
     Call<FruitList> getFruits();
 }

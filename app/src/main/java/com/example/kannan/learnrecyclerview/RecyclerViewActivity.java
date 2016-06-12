@@ -1,13 +1,16 @@
 package com.example.kannan.learnrecyclerview;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.util.List;
+
+import adapter.GroceryAdapter;
 import model.FruitList;
 import model.Fruits;
-import model.StackOverflowQuestions;
 import network.BaseNetworkApi;
-import network.StackOverflowAPI;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,54 +20,50 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecyclerViewActivity extends BaseActivity {
 
-    private static BaseNetworkApi mBaseNetworkApi;
-    private String TAG = RecyclerViewActivity.class.getSimpleName();
+    private static String TAG = RecyclerViewActivity.class.getSimpleName();
+    private static RecyclerView mRecyclerView;
+    private static RecyclerView.LayoutManager mLayoutManager;
+    private static GroceryAdapter mGroceryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view);
 
+        initViews();
         hitFruits();
 
     }
 
-
-    public void tryTwo() {
+    public void initViews() {
         try {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.stackexchange.com")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+            intiRecyclerView();
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
 
-            // prepare call in Retrofit 2.0
-            StackOverflowAPI stackOverflowAPI = retrofit.create(StackOverflowAPI.class);
+    }
 
-            Call<StackOverflowQuestions> call = stackOverflowAPI.loadQuestions("android");
-            //asynchronous call
-            call.enqueue(new Callback<StackOverflowQuestions>() {
-                @Override
-                public void onResponse(Call<StackOverflowQuestions> call, Response<StackOverflowQuestions> response) {
-                    Log.d(TAG, "onResponse");
+    public void intiRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
 
-                }
-
-                @Override
-                public void onFailure(Call<StackOverflowQuestions> call, Throwable t) {
-                    Log.d(TAG, "onFailure");
-                }
-            });
+    private void setRecyclerViewAdapterValue(List<Fruits> mFruitsList) {
+        try {
+            mGroceryAdapter = new GroceryAdapter(getApplicationContext(), mFruitsList);
+            mRecyclerView.setAdapter(mGroceryAdapter);
         } catch (Exception exp) {
             exp.printStackTrace();
         }
     }
 
     public void hitFruits() {
-
-
         try {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://demo7146441.mockable.io/")
+                    .baseUrl("http://demo0214632.mockable.io/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             BaseNetworkApi mBaseNetworkApi = retrofit.create(BaseNetworkApi.class);
@@ -74,9 +73,14 @@ public class RecyclerViewActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<FruitList> call, Response<FruitList> response) {
                     Log.d(TAG, "onResponse");
-                    for (Fruits mFruits : response.body().getFruitsList()) {
-                        Log.d(TAG, "" + mFruits.getFruitName());
+                    if (response.body().getFruitsList() != null && response.body().getFruitsList().size() > 0) {
+                        setRecyclerViewAdapterValue(response.body().getFruitsList());
+                    } else {
+                        Log.d(TAG, "null or size zero");
                     }
+                    /*for (Fruits mFruits : response.body().getFruitsList()) {
+                        Log.d(TAG, "" + mFruits.getFruitName());
+                    }*/
                 }
 
                 @Override

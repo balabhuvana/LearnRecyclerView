@@ -1,6 +1,6 @@
 package adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.kannan.learnrecyclerview.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import model.Fruits;
 
@@ -20,11 +20,11 @@ import model.Fruits;
  */
 public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.FruitViewHolder> {
 
-    private Activity mActivity;
-    private ArrayList<Fruits> mArrayListFruits;
+    private Context mContext;
+    private List<Fruits> mArrayListFruits;
 
-    public GroceryAdapter(Activity oActivity, ArrayList<Fruits> oArrayListFruits) {
-        mActivity = oActivity;
+    public GroceryAdapter(Context oContext, List<Fruits> oArrayListFruits) {
+        mContext = oContext;
         mArrayListFruits = oArrayListFruits;
     }
 
@@ -44,14 +44,14 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.FruitVie
 
     @Override
     public FruitViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mActivity)
+        View itemView = LayoutInflater.from(mContext)
                 .inflate(R.layout.fruits_view, parent, false);
         return new FruitViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(FruitViewHolder holder, int position) {
-        Picasso.with(mActivity).load("http://i.imgur.com/DvpvklR.png").into(holder.ivFruits);
+        Picasso.with(mContext).load(mArrayListFruits.get(position).getFruitUrl()).into(holder.ivFruits);
         holder.tvFruitName.setText(mArrayListFruits.get(position).getFruitName());
         holder.tvFruitPrice.setText(String.valueOf(mArrayListFruits.get(position).getFruitPrice()));
         holder.tvFruitWeight.setText(String.valueOf(mArrayListFruits.get(position).getFruitWeight()));
@@ -59,6 +59,6 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.FruitVie
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mArrayListFruits.size();
     }
 }
