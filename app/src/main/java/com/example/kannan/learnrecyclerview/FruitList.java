@@ -1,4 +1,4 @@
-package model;
+package com.example.kannan.learnrecyclerview;
 
 import com.google.gson.annotations.SerializedName;
 

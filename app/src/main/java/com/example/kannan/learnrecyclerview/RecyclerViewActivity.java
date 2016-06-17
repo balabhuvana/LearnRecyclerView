@@ -8,8 +8,7 @@ import android.util.Log;
 import java.util.List;
 
 import adapter.GroceryAdapter;
-import model.FruitList;
-import model.Fruits;
+import adapter.GroceryAdapterDataBinding;
 import network.BaseNetworkApi;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +23,7 @@ public class RecyclerViewActivity extends BaseActivity {
     private static RecyclerView mRecyclerView;
     private static RecyclerView.LayoutManager mLayoutManager;
     private static GroceryAdapter mGroceryAdapter;
+    private static GroceryAdapterDataBinding mGroceryAdapterDataBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,15 @@ public class RecyclerViewActivity extends BaseActivity {
         }
     }
 
+    private void setRecyclerViewAdapterDataBindingValue(List<Fruits> mFruitsList) {
+        try {
+            mGroceryAdapterDataBinding = new GroceryAdapterDataBinding(getApplicationContext(), mFruitsList);
+            mRecyclerView.setAdapter(mGroceryAdapterDataBinding);
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
+    }
+
     public void hitFruits() {
         try {
             Retrofit retrofit = new Retrofit.Builder()
@@ -74,13 +83,10 @@ public class RecyclerViewActivity extends BaseActivity {
                 public void onResponse(Call<FruitList> call, Response<FruitList> response) {
                     Log.d(TAG, "onResponse");
                     if (response.body().getFruitsList() != null && response.body().getFruitsList().size() > 0) {
-                        setRecyclerViewAdapterValue(response.body().getFruitsList());
+                        setRecyclerViewAdapterDataBindingValue(response.body().getFruitsList());
                     } else {
                         Log.d(TAG, "null or size zero");
                     }
-                    /*for (Fruits mFruits : response.body().getFruitsList()) {
-                        Log.d(TAG, "" + mFruits.getFruitName());
-                    }*/
                 }
 
                 @Override

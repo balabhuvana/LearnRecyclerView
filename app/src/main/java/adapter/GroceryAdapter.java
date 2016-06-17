@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import model.Fruits;
+import com.example.kannan.learnrecyclerview.Fruits;
 
 /**
  * Created by Kannan on 6/9/2016.

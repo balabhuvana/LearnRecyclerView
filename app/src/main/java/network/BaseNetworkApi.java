@@ -1,9 +1,7 @@
 package network;
 
-import java.util.ArrayList;
+import com.example.kannan.learnrecyclerview.FruitList;
 
-import model.FruitList;
-import model.Fruits;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
